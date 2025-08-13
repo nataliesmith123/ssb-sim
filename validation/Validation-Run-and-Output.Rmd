@@ -1,0 +1,48 @@
+---
+title: "Validation Work"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+
+fullNHANESrun <- FALSE
+cleanSimRun <- FALSE
+```
+
+Last run: `r Sys.time()`
+
+# Import and clean up NHANES 2009-2010 for simulation
+```{r nhanes}
+if (fullNHANESrun == TRUE){
+  source((here("analysis", "validation", "01_nhanes-prep_validationDataset.R")))
+} else{
+  print("Using previously output NHANES 2009-10 baseline")
+}
+
+```
+
+# Run basic simulation structure
+
+As in regular model, use the matching year's incidence rate (2009)
+```{r sim}
+if (cleanSimRun == TRUE){
+source((here("analysis", "validation", "02_run-model_2009irOnly.R")))
+} else{
+  print("Using previously saved validation sim data")
+}
+```
+
+# Get cohort-matched prevalence
+Calculate the age-matched diabetes average in NHANES over time
+```{r nhanes_avgs}
+source((here("analysis", "validation", "03_nhanes-over-time.R")))
+```
+
+# Examine outcomes
+Show outcomes graphically and in a tabular format to calculate % differences
+```{r outcomes}
+source((here("analysis", "validation", "04_graph.R")))
+```
