@@ -33,7 +33,7 @@ validationGraph <- bind_rows(validationData_overall_2009, nhanesMeans_overall) %
     facet_wrap(~cohortLevel) + 
     labs(title = "Model Validation", 
          #subtitle = "Simulated diabetes prevalence compared to age-matched diabetes prevalence over NHANES 2009-10 to NHANES 2017-18", 
-         caption = "Simulated data shown is the median and 95% uncertainty interval from 400 model iterations.
+         caption = "Simulated data shown is the median and 95% uncertainty interval from 1200 model iterations.
        Simulated data starts at 2009.5 to reflect the 2009-10 NHANES starting cohort used.", 
          y="Diabetes Prevalence", 
          x = "Year") + 
