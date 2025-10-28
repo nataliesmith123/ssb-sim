@@ -17,7 +17,7 @@ digitsRounding <- 4
 digitsRoundingBigNum <- 0
 
 set_flextable_defaults(
-  font.family = "Times", 
+  font.family = "Times New Roman", 
   padding.top = 2, 
   padding.bottom = 2
 )
@@ -66,7 +66,7 @@ longAndTidyResults <- simResults %>%
          policy = factor(abbrev, 
                          levels = c("sq", "noMoreSSBs", "graphicwl", "textwl", "tx2c", "tx2cRepeal"), 
                          labels = c("sq"="Status Quo", 
-                                    "noMoreSSBs" = "Full Removal of SSBs", 
+                                    "noMoreSSBs" = "Extreme Value", 
                                     "graphicwl" = "Graphic Warning Label", 
                                     "textwl" = "Text Warning Label", 
                                     "tx2c" = "Two Cent Excise Tax", 
@@ -304,12 +304,12 @@ allOutcomes <-
                     .names = "nice_{.col}") )
     ) %>%
       
-      mutate(results = case_when(svy=="mean" & data=="summary" ~ "Percentage point change in diabetes prevalence at 10 years", 
-                                 svy=="sums" & data=="summary" ~ "Total cases of diabetes averted (in thousands)", 
+      mutate(results = case_when(svy=="mean" & data=="summary" ~ "Percentage point change in T2D prevalence at 10 years", 
+                                 svy=="sums" & data=="summary" ~ "Total cases of T2D averted (in thousands)", 
                                  
-                                 svy=="mean" & data=="summary pct" ~ "Percentage change in diabetes prevalence at 10 years",
+                                 svy=="mean" & data=="summary pct" ~ "Percentage change in T2D prevalence at 10 years",
                                  
-                                 data=="cumulative" & outcome=="Diab" ~ "Total diabetes-free life years gained over 10 years (in thousands)", 
+                                 data=="cumulative" & outcome=="Diab" ~ "Total T2D-free life years gained over 10 years (in thousands)", 
                                  data=="cumulative" & outcome=="DiabDisutility" ~ "Total quality-adjusted life years gained over 10 years (in thousands)", 
                                  
                                  outcome=="pctChangeSSBs" ~ "Percent change in SSBs", 
@@ -349,10 +349,10 @@ allOutcomes <-
                 values_from = display_diff) %>%
     mutate(results = factor(results, levels = c("Percent change in SSBs", 
                                                 "Change in 250mL SSB servings consumed", 
-                                                "Total cases of diabetes averted (in thousands)", 
-                                                "Percentage point change in diabetes prevalence at 10 years", 
-                                                "Percentage change in diabetes prevalence at 10 years",
-                                                "Total diabetes-free life years gained over 10 years (in thousands)", 
+                                                "Total cases of T2D averted (in thousands)", 
+                                                "Percentage point change in T2D prevalence at 10 years", 
+                                                "Percentage change in T2D prevalence at 10 years",
+                                                "Total T2D-free life years gained over 10 years (in thousands)", 
                                                 "Total quality-adjusted life years gained over 10 years (in thousands)"))) %>%
     arrange(results) %>%
     flextable() %>%
@@ -483,6 +483,13 @@ ggsave(filename = here("analysis", "output", "figs", paste0("prevChange_subgroup
        device="png", 
        width=10, 
        height=7)
+
+ggsave(filename = here("analysis", "output", "figs", paste0("prevChange_subgroups_", simName, ".pdf")), 
+       plot = prevChange_subgroups + labs(title="", subtitle="", caption=""), 
+       device="pdf", 
+       width=10, 
+       height=7)
+
 
 saveRDS(prevChange_subgroups, 
         file = here("analysis", "output", "figs", paste0("prevChange_subgroups_", simName, ".rds")))

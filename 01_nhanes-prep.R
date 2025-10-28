@@ -19,7 +19,8 @@ names(cohortsOrig) <- c("cohort", "young", "female", "raceEthn", "loweduc", "x18
 orig <- haven::read_dta(file=here("analysis", "data", "foodgroups2_nhanes_1718_nosand.dta"), col_select = c(-eattime))
 diab <- haven::read_xpt(file=here("analysis", "data", "DIQ_J.XPT")) # https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/DIQ_J.htm
 
-allssbs <- c(110103, 110202, 110302, 110002, 112002, 112502)
+allssbs <- c(110103, 110202, 110302, 111002, 112002, 112502)
+  # 10/2/25 -- did find a mistake with 'sports drink, caloric' here (110002 rather than 111002), but this 'allssbs' is not used elsewhere so it's ok
 
 nonssbs <- c(110101, 110102, 110201, 110301, 110400, 110500,
              110600, 110703, 110701, 110702, 110704, 110803,

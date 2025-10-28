@@ -91,15 +91,11 @@ for (iteration in 1:nIterations){
 
   
   ### 2 cent tax ----
-  # direct effect from Kaplan et al., 2024
-  # have to use triangular distribution because the CI crosses 0 and -1 (beta is out)
-  # normal distribution works but end up with people on tails with changes that are just too extreme
   tx2c <- tidy_simulation %>%
-    mutate(policy="tx2c",
-           pctChangeSSBs = EnvStats::rtri(min = -1.048,
-                                          mode = -0.415,
-                                          max = 0.219,
-                                          n = nrow(tidy_simulation))
+    mutate(policy="tx2c", 
+           tx2c_realized = 0.02*passThrough, 
+           tx2c_pctChangePrice = tx2c_realized / pricePerOunce, 
+           pctChangeSSBs = elasticityAverage*tx2c_pctChangePrice 
     )
   
   
@@ -113,9 +109,10 @@ for (iteration in 1:nIterations){
   # with a CI spread of 0.08 (8 pp)
   # textWlVar < textWlAvg*(1-textWlAvg)
   
-  textWlAvg = 0.18
+  (textWlAvg = 0.18)
   textWlSpread = 0.08
   textWlVar = (textWlSpread/1.96)^2
+  (textWlSD = sqrt(textWlVar))
   
   textShape1 = textWlAvg*((textWlAvg*(1-textWlAvg)/textWlVar)-1)
   textShape2 = (1-textWlAvg)*((textWlAvg*(1-textWlAvg)/textWlVar)-1)
@@ -133,9 +130,10 @@ for (iteration in 1:nIterations){
   
   ### GRAPHIC warning label with Marissa's study ----
   # (51.7-82.1)/82.1
-  graphicWlAvg = 0.37 # informed by Marissa study
+  (graphicWlAvg = 0.37) # informed by Marissa study
   graphicWlSpread = 0.15 # bigger spread because we are uncertain/newer policy
   graphicWlVar = (graphicWlSpread/1.96)^2
+  (graphicWlSD = sqrt(graphicWlVar))
   
   graphicShape1 = graphicWlAvg*((graphicWlAvg*(1-graphicWlAvg)/graphicWlVar)-1)
   graphicShape2 = (1-graphicWlAvg)*((graphicWlAvg*(1-graphicWlAvg)/graphicWlVar)-1)

@@ -91,12 +91,17 @@ for (iteration in 1:nIterations){
 
   
   ### 2 cent tax ----
+  # direct effect from Kaplan et al., 2024
+  # have to use triangular distribution because the CI crosses 0 and -1 (beta is out)
+  # normal distribution works but end up with people on tails with changes that are just too extreme
   tx2c <- tidy_simulation %>%
-    mutate(policy="tx2c", 
-           tx2c_realized = 0.02*passThrough, 
-           tx2c_pctChangePrice = tx2c_realized / pricePerOunce, 
-           pctChangeSSBs = elasticityAverage*tx2c_pctChangePrice 
+    mutate(policy="tx2c",
+           pctChangeSSBs = EnvStats::rtri(min = -1.048,
+                                          mode = -0.415,
+                                          max = 0.219,
+                                          n = nrow(tidy_simulation))
     )
+  
   
   
   ### 2 cent tax, repealed after 1 year ----
